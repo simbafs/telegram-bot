@@ -15,7 +15,12 @@ var (
 	// btnSet    = selector.Data("set", "set")
 	btnDelete = selector.Data("x", "delete")
 )
-var counter = make(map[int]int)
+
+func calc(str string, n int) string {
+	var i int
+	fmt.Sscanf(str, "%d", &i)
+	return fmt.Sprint(i + n)
+}
 
 func Command(b *tele.Bot) *tele.Group {
 	g := b.Group()
@@ -23,23 +28,19 @@ func Command(b *tele.Bot) *tele.Group {
 		selector.Row(btnAdd, btnZero, btnMinus, btnDelete),
 	)
 	g.Handle("/counter", func(c tele.Context) error {
-		counter[c.Message().ID] = 0
 		return c.Send(fmt.Sprint(0), selector)
 	})
 
 	g.Handle(&btnAdd, func(c tele.Context) error {
-		counter[c.Message().ID]++
-		return c.Edit(fmt.Sprint(counter[c.Message().ID]), selector)
+		return c.Edit(calc(c.Text(), 1), selector)
 	})
 
 	g.Handle(&btnZero, func(c tele.Context) error {
-		counter[c.Message().ID] = 0
-		return c.Edit(fmt.Sprint(counter[c.Message().ID]), selector)
+		return c.Edit("0", selector)
 	})
 
 	g.Handle(&btnMinus, func(c tele.Context) error {
-		counter[c.Message().ID]--
-		return c.Edit(fmt.Sprint(counter[c.Message().ID]), selector)
+		return c.Edit(calc(c.Text(), -1), selector)
 	})
 
 	g.Handle(&btnDelete, func(c tele.Context) error {
