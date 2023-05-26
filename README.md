@@ -11,6 +11,7 @@ TELEBOT_TOKEN=<token> make dev
 ## counter
 
 `/counter`
+![counter](./img/counter.png)
 
 # License
 
