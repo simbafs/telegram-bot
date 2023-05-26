@@ -7,16 +7,8 @@ import (
 
 	tele "gopkg.in/telebot.v3"
 	"gopkg.in/telebot.v3/middleware"
-)
 
-var (
-	selector = &tele.ReplyMarkup{}
-
-	btnAdd   = selector.Data("+", "add")
-	btnZero  = selector.Data("0", "zero")
-	btnMinus = selector.Data("-", "minus")
-	// btnSet    = selector.Data("set", "set")
-	btnDelete = selector.Data("x", "delete")
+	"bot/commands/counter"
 )
 
 func Logger(next tele.HandlerFunc) tele.HandlerFunc {
@@ -25,8 +17,6 @@ func Logger(next tele.HandlerFunc) tele.HandlerFunc {
 		return next(c)
 	}
 }
-
-var counter = make(map[int]int)
 
 func start(token string) error {
 	pref := tele.Settings{
@@ -42,37 +32,12 @@ func start(token string) error {
 	b.Use(Logger)
 	b.Use(middleware.AutoRespond())
 
-	selector.Inline(
-		selector.Row(btnAdd, btnZero, btnMinus, btnDelete),
-	)
-
 	b.Handle("/start", func(c tele.Context) error {
 		return c.Send("Use /counter to create a counter")
 	})
 
-	b.Handle("/counter", func(c tele.Context) error {
-		counter[c.Message().ID] = 0
-		return c.Send(fmt.Sprint(0), selector)
-	})
-
-	b.Handle(&btnAdd, func(c tele.Context) error {
-		counter[c.Message().ID]++
-		return c.Edit(fmt.Sprint(counter[c.Message().ID]), selector)
-	})
-
-	b.Handle(&btnZero, func(c tele.Context) error {
-		counter[c.Message().ID] = 0
-		return c.Edit(fmt.Sprint(counter[c.Message().ID]), selector)
-	})
-
-	b.Handle(&btnMinus, func(c tele.Context) error {
-		counter[c.Message().ID]--
-		return c.Edit(fmt.Sprint(counter[c.Message().ID]), selector)
-	})
-
-	b.Handle(&btnDelete, func(c tele.Context) error {
-		return c.Delete()
-	})
+	// commands
+	counter.Command(b)
 
 	fmt.Println("Bot is running!")
 	b.Start()
