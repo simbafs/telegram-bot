@@ -3,4 +3,7 @@ build:
 
 dev:
 	nodemon -e go --watch './**/*.go' --signal SIGTERM --exec 'go' run .
-.PHONY: dev build
+
+image: Dockerfile
+	docker build . -t simbafs/bot
+.PHONY: dev build image

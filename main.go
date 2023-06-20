@@ -27,7 +27,7 @@ func start(token string) error {
 
 	b, err := tele.NewBot(pref)
 	if err != nil {
-		return err
+		return fmt.Errorf("Error when create new bot, %w", err)
 	}
 
 	b.Use(Logger)
