@@ -8,6 +8,10 @@ TELEBOT_TOKEN=<token> make dev
 
 # Features
 
+## ping
+`/ping`
+Pong!
+
 ## counter
 
 `/counter`  

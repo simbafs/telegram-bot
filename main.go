@@ -34,7 +34,11 @@ func start(token string) error {
 	b.Use(middleware.AutoRespond())
 
 	b.Handle("/start", func(c tele.Context) error {
-		return c.Send("Use /counter to create a counter")
+		return c.Send("Hi, this is SimbaFs' Telegram bot")
+	})
+
+	b.Handle("/ping", func (c tele.Context) error {
+		return c.Reply("pong!")
 	})
 
 	// commands
