@@ -9,6 +9,7 @@ import (
 	"gopkg.in/telebot.v3/middleware"
 
 	"bot/commands/counter"
+	"bot/commands/pixiv"
 )
 
 func Logger(next tele.HandlerFunc) tele.HandlerFunc {
@@ -38,6 +39,7 @@ func start(token string) error {
 
 	// commands
 	counter.Command(b)
+	pixiv.Command(b)
 
 	fmt.Println("Bot is running!")
 	b.Start()
